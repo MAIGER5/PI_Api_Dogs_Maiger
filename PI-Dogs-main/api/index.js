@@ -18,11 +18,12 @@
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
+const { conn } = require('./src/db.js');  //importando la instancia de sequelize de db.js
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
+conn.sync({ force: true }).then(() => {  //sincroniza o crea la talba definida en el models, si ya existe la suelta
   server.listen(3001, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
+    console.log('estoy en el servidor')
   });
 });

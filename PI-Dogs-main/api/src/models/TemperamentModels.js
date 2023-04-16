@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   // defino el modelo
 
-  sequelize.define('temperament', { //siempre debemos definir el modelo en letras minuscular y en singular
+  sequelize.define('Temperament', {  // Siempre debe definirse en SINGULAR, la base datos finalmente crea la tabla den PLURAL
     id: {
       type:DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,

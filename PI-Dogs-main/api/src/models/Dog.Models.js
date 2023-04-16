@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   // defino el modelo
 
-  sequelize.define('dog', {
+  sequelize.define('Dog', {  // Siempre debe definirse en SINGULAR, la base datos finalmente crea la tabla den PLURAL
     id: {
       type:DataTypes.UUID,
       primaryKey: true,
@@ -16,6 +16,10 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    breed_group: {
       type: DataTypes.STRING,
       allowNull: false,
     },

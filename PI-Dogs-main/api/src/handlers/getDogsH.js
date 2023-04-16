@@ -1,3 +1,6 @@
+const { json } = require("sequelize");
+const { createDogController } = require("../controllers/createDogController");
+
 const getDogsH = (req, res)=> {
     res.status(200).send('Obtiene un arreglo de objetos, donde cada objeto es la raza de un perro')
 };
@@ -21,11 +24,17 @@ const getByRaceH = (req, res)=> {
     res.status(200).send(`todos los usuarios`)
 };
 
-const createDogsH = (req, res)=> {
-    res.status(200).send(`
-    -Esta ruta recibirá todos los datos necesarios para crear un nuevo perro y relacionarlo con los temperamentos asociados.
-    -Toda la información debe ser recibida por body.
-    -Debe crear la raza de perro en la base de datos, y esta debe estar relacionada con los temperamentos indicados al menos uno`)
+const createDogsH = async (req, res)=> {
+    const {image, name, breed_group, height, weight, life_span} = req.body;
+    try {
+        const response = await createDogController(image, name, breed_group, height, weight, life_span);
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(404).json({error:error.message})    
+    }
+    // -Esta ruta recibirá todos los datos necesarios para crear un nuevo perro y relacionarlo con los temperamentos asociados.
+    // -Toda la información debe ser recibida por body.
+    // -Debe crear la raza de perro en la base de datos, y esta debe estar relacionada con los temperamentos indicados al menos uno`
 };
 
 module.exports = {

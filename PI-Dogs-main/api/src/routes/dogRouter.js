@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getDogsH, getDetailH, getByRaceH, createDogsH } = require('../handlers/getDogsH');
+const { getDogsH, getDetailH, createDogsH } = require('../handlers/getDogsH');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
@@ -10,8 +10,9 @@ dogRouter.get('/', getDogsH);
 
 dogRouter.get('/:idRaza', getDetailH);
 
-dogRouter.get('/name?="..."', getByRaceH);
-
 dogRouter.post('/', createDogsH);
 
+// dogRouter.get('/name', getByRaceH);
+
 module.exports = dogRouter;
+

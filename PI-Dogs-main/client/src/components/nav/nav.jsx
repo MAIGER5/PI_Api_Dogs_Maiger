@@ -10,8 +10,8 @@ function Nav() {
             Api-Dogs <i className="fab fa-react"></i>
             </h1>
             
+            <Link to="/">Abaut</Link>
             <Link to="/home">Home</Link>
-            <Link to="/abaut">Abaut</Link>
             <Link to="/favorites">Favortes</Link>
             <Link to="/createDog">CreateDog</Link>
             <Link to="/contact">Contact</Link>

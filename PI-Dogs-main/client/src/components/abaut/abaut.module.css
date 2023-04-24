@@ -30,3 +30,28 @@
     border-radius: 200px;;
     width: 200px;
   }
+
+  .home {
+    width: 140%;
+    height: 3;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    background: #faf9f9;
+    border-radius: 20px;
+    /* margin: top:0; left:0; */
+}
+
+
+  .home img{
+    width: 60px;
+    padding-top: 10px;
+  }
+  .home h1 {
+    font-size: 20px;
+    font-weight: 800;
+    padding-bottom: 0px;
+    color:  #303841;
+  }
+  

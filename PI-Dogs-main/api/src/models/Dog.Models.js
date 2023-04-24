@@ -9,25 +9,13 @@ module.exports = (sequelize) => {
       type:DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
-      allowNull: false
-    },
-    image: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    breed_group: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    height: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    weight: {
+    temperament: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -35,9 +23,29 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    weightMin: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    weightMax: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    heightMin: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    heightMax: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    reference_image_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     created:{
       type: DataTypes.BOOLEAN,
-      defaultValue: true,
+      defaultValue: true
     }
 
   },

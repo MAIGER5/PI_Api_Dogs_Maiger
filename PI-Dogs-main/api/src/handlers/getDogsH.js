@@ -56,9 +56,9 @@ const getDetailH = async (req, res)=> {
 // };
 
 const createDogsH = async (req, res)=> {
-    const {image, name, breed_group, height, weight, life_span} = req.body;
+    const {name, temperament, life_span, weightMin, weightMax, heightMin, heightMax, reference_image_id, created} = req.body;
     try {
-        const response = await createDogController(image, name, breed_group, height, weight, life_span);
+        const response = await createDogController(name, temperament, life_span, weightMin, weightMax, heightMin, heightMax, reference_image_id, created);
         res.status(200).json(response)
     } catch (error) {
         res.status(404).json({error:error.message})    

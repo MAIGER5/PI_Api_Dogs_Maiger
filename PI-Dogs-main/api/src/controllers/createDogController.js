@@ -6,7 +6,16 @@ const {TheDogApi, API_KEY} = process.env;
 const dogsCleaner = (array) => {
     return array.map((arr) => {
         return {
+
+            id: arr.id,
             name: arr.name,
+            temperament: arr.temperament,
+            life_span: arr.life_span,
+            weightMin: Array.from(arr.weight.metric).shift(),
+            weightMax: Array.from(arr.weight.metric).pop(),
+            heightMin: Array.from(arr.height.metric).shift(),
+            heightMax: Array.from(arr.height.metric).pop(),
+            reference_image_id: arr.reference_image_id,
             created: false,
         };
     });
@@ -14,26 +23,13 @@ const dogsCleaner = (array) => {
 
 const getAllDogsControler = async () => {
 
-    const dogsBd = await Dog.findAll({attributes: ['name', 'created']}); //llamar los perros en la base de datos
+    const dogsBd = await Dog.findAll({attributes: ['id','name', 'temperament', 'life_span', 'weightMin', 'weightMax', 'heightMin', 'heightMax',  'reference_image_id', 'created']}); //llamar los perros en la base de datos
     const infoApi = await axios.get(`${TheDogApi}?key=${API_KEY}`);  //buscar los perros en la Api
 
     const dogsApi = dogsCleaner(infoApi.data);
     // const dogsBd = dogsCleaner(infoBd);
 
     return [...dogsBd, ...dogsApi];
-}
-
-const createDogController = async (image, name, breed_group, height, weight, life_span)=> {
-    return await Dog.create({image, name, breed_group, height, weight, life_span});  // estos son los atributos o columnas definidas en el modelo Dog
-}
-
-const getDogByIdController = async (idRaza, source)=> {
-
-    const dog = 
-        source === "api" ? (await axios.get(`${TheDogApi}/${idRaza}?key=${API_KEY}`))
-            .data
-        : await Dog.findByPk(idRaza);
-    return dog;
 }
 
 const getDogByNameController = async(name) => {
@@ -48,6 +44,36 @@ const getDogByNameController = async(name) => {
     return [...dogsRaceBd, ...dogsRaceApi];
     
 }
+
+const createDogController = async (name, temperament, life_span, weightMin, weightMax, heightMin, heightMax, reference_image_id, created)=> {
+    return await Dog.create({name, temperament, life_span, weightMin, weightMax, heightMin, heightMax, reference_image_id, created});  // estos son los atributos o columnas definidas en el modelo Dog
+}
+
+const getDogByIdController = async (idRaza, source)=> {
+
+    // guardamos la info de la api para maperarla 
+    // const info = (await axios.get(`${TheDogApi}/${idRaza}?key=${API_KEY}`)).data
+
+    // dogId.push(info);
+ 
+    // const dogDetail = dogsCleaner(dogId);
+//-------------------------------------------------
+
+    // guardo la info de la base de datos para qe no se mapee con la funcion dogsCleaner
+    const bdId = [];
+    const apiId = [];
+    
+    if (source === 'bdd') {
+        bdId.push(await Dog.findByPk(idRaza))
+        return bdId;
+    } else {
+        apiId.push((await axios.get(`${TheDogApi}/${idRaza}?key=${API_KEY}`)).data)
+        const apiInfo = dogsCleaner(apiId)
+        return apiInfo
+    }
+}
+
+
 
 module.exports = {
     createDogController,

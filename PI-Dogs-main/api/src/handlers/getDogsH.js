@@ -36,24 +36,6 @@ const getDetailH = async (req, res)=> {
     // -Debe funcionar tanto para los perros de la API como para los de la base de datos
 };
 
-// const getByRaceH = async (req, res)=> {
-
-//     const {name} = req.query;
-
-//     try {
-//         if (name) {
-//             const dogByName = await getDogByName(name);
-//             res.status(200).json(dogByName)
-//         }
-//     } catch (error) {
-//         res.status(400).json({error: error.message})
-//     }
-//     // -Esta ruta debe obtener todas aquellas razas de perros que coinciden con el nombre recibido por query. (No es necesario que sea una coincidencia exacta).
-//     // -Debe poder buscarlo independientemente de mayúsculas o minúsculas.
-//     // -Si no existe la raza, debe mostrar un mensaje adecuado.
-//     // -Debe buscar tanto los de la API como los de la base de datos
-
-// };
 
 const createDogsH = async (req, res)=> {
     const {name, temperament, life_span, weightMin, weightMax, heightMin, heightMax, reference_image_id, created} = req.body;

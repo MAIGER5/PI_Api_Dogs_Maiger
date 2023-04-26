@@ -17,5 +17,9 @@
 }
 
 .container SearchBar{
-    margin-top: 400px;
+    margin-top: 1000px;
+}
+
+.container button{
+    margin-top: 50px;
 }

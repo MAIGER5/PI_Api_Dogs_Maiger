@@ -5,12 +5,7 @@ module.exports = (sequelize) => {
   // defino el modelo
 
   sequelize.define('Temperament', {  // Siempre debe definirse en SINGULAR, la base datos finalmente crea la tabla den PLURAL
-    id: {
-      type:DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-      allowNull: false
-    },
+
     name: {
       type: DataTypes.STRING,
       allowNull: false,

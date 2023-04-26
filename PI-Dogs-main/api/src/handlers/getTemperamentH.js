@@ -13,4 +13,5 @@ const getTemperamentH = async (req, res)=> {
 
 };
 
+
 module.exports = getTemperamentH;

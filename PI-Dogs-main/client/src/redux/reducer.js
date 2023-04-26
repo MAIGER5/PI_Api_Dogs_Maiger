@@ -1,10 +1,21 @@
-import { CLEAN_DETAIL, GET_CHARACTERS_DETAIL, GET_CHARACTERS_BY_NAME, ORDER_CARDS, FILTER_CARDS_SOURCE, GET_CHARACTERS, ORDER_CARDS_WEIGHT} from "./actions";
+import {
+    CLEAN_DETAIL, 
+    GET_CHARACTERS_DETAIL, 
+    GET_CHARACTERS_BY_NAME, 
+    ORDER_CARDS, 
+    FILTER_CARDS_SOURCE, 
+    GET_CHARACTERS, 
+    ORDER_CARDS_WEIGHT, 
+    // GET_TEMPERAMENTS_BD, 
+    FILTER_CARDS_TEMPERAMENT,
+    GET_AND_POST_TEMPERAMENTS} from "./actions";
 
 
 const initialState = {
     allCharacters: [],
     charactersCopy: [],
     charactersDetail: [],
+    temperamentsBD: [],
     post: []
 
 };
@@ -21,7 +32,6 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 allCharacters:action.payload,
                 charactersCopy:action.payload
-
             };
 
         case GET_CHARACTERS_DETAIL:
@@ -79,6 +89,30 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 allCharacters: createdFilter,
             }
+
+        case FILTER_CARDS_TEMPERAMENT:
+
+            const {charactersCopy} = state
+            let filterTemp = action.payload
+
+            filterTemp === 'DEFAULT'? (filterTemp = charactersCopy) : (filterTemp = charactersCopy.filter((ele)=> ele.temperament.includes(action.payload)))
+            // const filTemp = state.charactersCopy.filter((ele)=> ele.temperament.includes(action.payload))
+            return {
+                ...state,
+                allCharacters: filterTemp,
+            }
+
+        case GET_AND_POST_TEMPERAMENTS:
+            return {
+                ...state,
+                temperamentsBD: action.payload,
+            };
+
+        // case GET_TEMPERAMENTS_BD:
+        //     return {
+        //         ...state,
+        //         temperamentsBD: action.payload,
+        //     };
 
         default:
             return { ...state };

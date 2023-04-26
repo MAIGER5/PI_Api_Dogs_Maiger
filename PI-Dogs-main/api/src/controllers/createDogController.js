@@ -1,5 +1,6 @@
+
 require('dotenv').config();
-const {Dog} = require('../db') //el Dog aqui puesto se refiere al modelo Dog definido en el DogModels
+const {Dog, Temperament} = require('../db') //el Dog aqui puesto se refiere al modelo Dog definido en el DogModels
 const axios = require('axios')
 const {TheDogApi, API_KEY} = process.env;
 
@@ -9,7 +10,7 @@ const dogsCleaner = (array) => {
 
             id: arr.id,
             name: arr.name,
-            temperament: arr.temperament,
+            temperament: arr.temperament? arr.temperament.replace(",", "").replace(/\s/g, "").split(",") : "temCreado",
             life_span: arr.life_span,
             weightMin: Array.from(arr.weight.metric).shift(),
             weightMax: Array.from(arr.weight.metric).pop(),
@@ -23,13 +24,21 @@ const dogsCleaner = (array) => {
 
 const getAllDogsControler = async () => {
 
-    const dogsBd = await Dog.findAll({attributes: ['id','name', 'temperament', 'life_span', 'weightMin', 'weightMax', 'heightMin', 'heightMax',  'reference_image_id', 'created']}); //llamar los perros en la base de datos
+    const dogsBd = await Dog.findAll({
+        include: {
+            model: Temperament,
+            attributes: ['name'],
+            through: {
+                attributes: [],
+            },
+        }
+    }); //llamar los perros en la base de datos
     const infoApi = await axios.get(`${TheDogApi}?key=${API_KEY}`);  //buscar los perros en la Api
 
     const dogsApi = dogsCleaner(infoApi.data);
     // const dogsBd = dogsCleaner(infoBd);
 
-    return [...dogsBd, ...dogsApi];
+    return [...dogsApi, ...dogsBd];
 }
 
 const getDogByNameController = async(name) => {
@@ -42,11 +51,12 @@ const getDogByNameController = async(name) => {
 
     if (!dogsRaceBd.length && !dogsRaceApi.length) throw new Error('No existe el nombre de la raza que esta buscando');
     return [...dogsRaceBd, ...dogsRaceApi];
-    
 }
 
 const createDogController = async (name, temperament, life_span, weightMin, weightMax, heightMin, heightMax, reference_image_id, created)=> {
-    return await Dog.create({name, temperament, life_span, weightMin, weightMax, heightMin, heightMax, reference_image_id, created});  // estos son los atributos o columnas definidas en el modelo Dog
+    const dogNew = await Dog.create({name, life_span, weightMin, weightMax, heightMin, heightMax, reference_image_id, created});  // estos son los atributos o columnas definidas en el modelo Dog
+
+    await dogNew.addTemperaments(temperament)
 }
 
 const getDogByIdController = async (idRaza, source)=> {

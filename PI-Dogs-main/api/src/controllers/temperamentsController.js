@@ -3,6 +3,7 @@ const {Dog, Temperament} = require('../db');
 const axios = require('axios');
 const {TheDogApi, API_KEY} = process.env;
 
+
 const getAllTemperaments = async () => {
 
     const infoApi = (await axios.get(`${TheDogApi}?key=${API_KEY}`)).data;
@@ -24,22 +25,31 @@ const getAllTemperaments = async () => {
     }, [])
 
     
-    const resultOnject = result.map((ele2)=> {  // ahora por cada elemento del array hacemos un objeto dandole la propiedad name y el value que es el temperamento
+    const resultOnject = result.map((ele2)=> {
         return {
-            name: ele2
+          name: ele2.replace(",", "").replace(/\s/g, ""),
         }
-    })
+      })
     
-    return await Temperament.bulkCreate(resultOnject)
+    await Temperament.bulkCreate(resultOnject)
         .then(()=>console.log('Los Tempramentos han sido Salvados en la Base de Datos'))
 
 
-    // return [...resultOnject];
-
-
-
+    return [...resultOnject];
 }
+
+
+
+const getAllTempBdController = async () => {
+
+    const tempsBd = await Temperament.findAll({attributes: ['name']}); 
+
+    return [...tempsBd];
+}
+
 
 module.exports = {
     getAllTemperaments,
+    getAllTempBdController,
+
 }
